@@ -13,9 +13,9 @@ It's code is shamelessly extracted and adapted from Rails'
 ```ruby
 require 'content_disposition'
 
-headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg")
-ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
-ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg")
+headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg").to_s
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
+ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg").to_s
 ```
 
 A proper content-disposition value for non-ascii filenames has a pure-ascii
@@ -27,13 +27,13 @@ But you can pass in your own proc to do it however you want. If you have a
 dependency on the i18n gem, and want to do it just like Rails:
 
 ```ruby
-ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
 # => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 
 ContentDisposition.format(disposition: "attachment",
   filename: "råcëçâr.jpg",
   to_ascii: ->(str) { I18n.transliterate(str) }
-)
+).to_s
 # => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 ```
 
