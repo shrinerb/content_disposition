@@ -1,5 +1,7 @@
 # ContentDisposition
 
+[![Gem Version](https://badge.fury.io/rb/content_disposition.svg)](https://badge.fury.io/rb/content_disposition)
+
 Creating a properly encoded and escaped a standards-complaint HTTP
 Content-Disposition header for potential non-ascii filenames is surprisingly
 confusing.
