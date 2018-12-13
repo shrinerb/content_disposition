@@ -8,7 +8,7 @@ confusing.
 
 This gem does that and only that, in a single 50-line file with no dependencies.
 It's code is shamelessly extracted and adapted from Rails'
-`HTTP::ContentDisposition` class.
+`ActionDispatch::HTTP::ContentDisposition` class.
 
 ```ruby
 require 'content_disposition'
