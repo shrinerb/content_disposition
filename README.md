@@ -10,11 +10,13 @@ This gem does that and only that, in a single 50-line file with no dependencies.
 It's code is shamelessly extracted and adapted from Rails'
 `HTTP::ContentDisposition` class.
 
-    require 'content_disposition'
+```ruby
+require 'content_disposition'
 
-    headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg")
-    ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
-    ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg")
+headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg")
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
+ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg")
+```
 
 A proper content-disposition value for non-ascii filenames has a pure-ascii
 as well as an ascii component. By default the filename will be turned into ascii,
@@ -24,14 +26,16 @@ then properly percent-escaped in output).
 But you can pass in your own proc to do it however you want. If you have a
 dependency on the i18n gem, and want to do it just like Rails:
 
-    ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
-    # => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
+```ruby
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
+# => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 
-    ContentDisposition.format(disposition: "attachment",
-      filename: "råcëçâr.jpg",
-      to_ascii: ->(str) { I18n.transliterate(str) }
-    )
-    # => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
+ContentDisposition.format(disposition: "attachment",
+  filename: "råcëçâr.jpg",
+  to_ascii: ->(str) { I18n.transliterate(str) }
+)
+# => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
+```
 
 That's it.
 
