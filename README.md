@@ -23,13 +23,15 @@ as well as an ascii component. By default the filename will be turned into ascii
 for the ascii component by replacing any non-ascii chars with `'?'` (which is
 then properly percent-escaped in output).
 
+```ruby
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
+# => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
+```
+
 But you can pass in your own proc to do it however you want. If you have a
 dependency on the i18n gem, and want to do it just like Rails:
 
 ```ruby
-ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
-# => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
-
 ContentDisposition.format(disposition: "attachment",
   filename: "råcëçâr.jpg",
   to_ascii: ->(str) { I18n.transliterate(str) }
