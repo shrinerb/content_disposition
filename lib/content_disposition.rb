@@ -2,7 +2,7 @@
 
 require "content_disposition/version"
 
-class ContentDisposition # :nodoc:
+class ContentDisposition
   DEFAULT_TO_ASCII = ->(str) { str.encode("US-ASCII", undef: :replace, replace: "?") }
 
   def self.format(disposition:, filename:, to_ascii: DEFAULT_TO_ASCII)
