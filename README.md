@@ -2,29 +2,29 @@
 
 [![Gem Version](https://badge.fury.io/rb/content_disposition.svg)](https://badge.fury.io/rb/content_disposition)
 
-Creating a properly encoded and escaped standards-complaint HTTP
+Creating a properly encoded and escaped standards-compliant HTTP
 Content-Disposition header for potential non-ascii filenames is surprisingly
 confusing.
 
-This gem does that and only that, in a single 50-line file with no dependencies.
+This ruby gem does that and only that, in a single 50-line file with no dependencies.
 It's code is shamelessly extracted and adapted from Rails'
 `ActionDispatch::HTTP::ContentDisposition` class.
 
 ```ruby
 require 'content_disposition'
 
-headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg").to_s
-ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
-ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg").to_s
+headers["Content-Disposition"] = ContentDisposition.format(disposition: :attachment, filename: "racecar.jpg")
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
+ContentDisposition.new(disposition: :inline, filename: "автомобиль.jpg")
 ```
 
 A proper content-disposition value for non-ascii filenames has a pure-ascii
-as well as an ascii component. By default the filename will be turned into ascii,
-for the ascii component by replacing any non-ascii chars with `'?'` (which is
-then properly percent-escaped in output).
+as well as an ascii component. By default the filename will be turned into ascii
+by replacing any non-ascii chars with `'?'` (which is then properly
+percent-escaped in output).
 
 ```ruby
-ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg").to_s
+ContentDisposition.format(disposition: "attachment", filename: "råcëçâr.jpg")
 # => "attachment; filename=\"r%3Fc%3F%3F%3Fr.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 ```
 
@@ -32,10 +32,11 @@ But you can pass in your own proc to do it however you want. If you have a
 dependency on the i18n gem, and want to do it just like Rails:
 
 ```ruby
-ContentDisposition.format(disposition: "attachment",
+ContentDisposition.format(
+  disposition: "attachment",
   filename: "råcëçâr.jpg",
   to_ascii: ->(str) { I18n.transliterate(str) }
-).to_s
+)
 # => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 ```
 

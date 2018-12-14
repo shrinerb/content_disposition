@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Jonathan Rochkind"]
   spec.email         = ["jrochkind@chemheritage.org"]
 
-  spec.summary       = %q{Create content-disposition headers with proper escaping/encoding}
+  spec.summary       = %q{Ruby gem to create HTTP Content-Disposition headers with proper escaping/encoding of filenames}
   spec.homepage      = "https://github.com/shrinerb/content_disposition"
   spec.license       = "MIT"
 
