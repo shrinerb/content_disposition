@@ -9,6 +9,10 @@ class ContentDisposition
     new(disposition: disposition, filename: filename, to_ascii: to_ascii).to_s
   end
 
+  def self.call(*args)
+    format(*args)
+  end
+
   def self.attachment(filename = nil)
     format(disposition: "attachment", filename: filename)
   end

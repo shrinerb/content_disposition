@@ -65,6 +65,14 @@ RSpec.describe ContentDisposition do
     end
   end
 
+  describe ".call" do
+    it "aliases .format" do
+      value = ContentDisposition.(disposition: "attachment", filename: "racecar.jpg")
+
+      expect(value).to eq %(attachment; filename="racecar.jpg"; filename*=UTF-8''racecar.jpg)
+    end
+  end
+
   describe ".attachment" do
     it "accepts a filename" do
       value = ContentDisposition.attachment("racecar.jpg")
