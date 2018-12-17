@@ -40,6 +40,21 @@ ContentDisposition.format(
 # => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''r%C3%A5c%C3%AB%C3%A7%C3%A2r.jpg"
 ```
 
+The `.format` method is aliased to `.call`, so you can do:
+
+```rb
+ContentDisposition.(disposition: "attachment", filename: "råcëçâr.jpg")
+```
+
+There are also `.attachment` and `.inline` shorthands:
+
+```rb
+ContentDisposition.attachment("racecar.jpg")
+# => "attachment; filename=\"racecar.jpg\"; filename*=UTF-8''racecar.jpg"
+ContentDisposition.inline("racecar.jpg")
+# => "inline; filename=\"racecar.jpg\"; filename*=UTF-8''racecar.jpg"
+```
+
 That's it.
 
 ## Installation
