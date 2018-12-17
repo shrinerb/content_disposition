@@ -9,6 +9,14 @@ class ContentDisposition
     new(disposition: disposition, filename: filename, to_ascii: to_ascii).to_s
   end
 
+  def self.attachment(filename = nil)
+    format(disposition: "attachment", filename: filename)
+  end
+
+  def self.inline(filename = nil)
+    format(disposition: "inline", filename: filename)
+  end
+
   attr_reader :disposition, :filename, :to_ascii
 
   def initialize(disposition:, filename:, to_ascii: DEFAULT_TO_ASCII)

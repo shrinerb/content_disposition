@@ -65,5 +65,31 @@ RSpec.describe ContentDisposition do
     end
   end
 
+  describe ".attachment" do
+    it "accepts a filename" do
+      value = ContentDisposition.attachment("racecar.jpg")
 
+      expect(value).to eq %(attachment; filename="racecar.jpg"; filename*=UTF-8''racecar.jpg)
+    end
+
+    it "works without a filename" do
+      value = ContentDisposition.attachment
+
+      expect(value).to eq %(attachment)
+    end
+  end
+
+  describe ".inline" do
+    it "accepts a filename" do
+      value = ContentDisposition.inline("racecar.jpg")
+
+      expect(value).to eq %(inline; filename="racecar.jpg"; filename*=UTF-8''racecar.jpg)
+    end
+
+    it "works without a filename" do
+      value = ContentDisposition.inline
+
+      expect(value).to eq %(inline)
+    end
+  end
 end
