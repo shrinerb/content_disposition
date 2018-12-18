@@ -6,8 +6,8 @@ class ContentDisposition
   ATTACHMENT = "attachment"
   INLINE     = "inline"
 
-  DEFAULT_TO_ASCII = -> (string) do
-    string.encode("US-ASCII", undef: :replace, replace: "?")
+  DEFAULT_TO_ASCII = ->(filename) do
+    filename.encode("US-ASCII", undef: :replace, replace: "?")
   end
 
   class << self

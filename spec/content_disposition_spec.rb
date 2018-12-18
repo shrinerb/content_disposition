@@ -111,8 +111,8 @@ RSpec.describe ContentDisposition do
       content_disposition = ContentDisposition.new(
         disposition: :inline,
         filename:    "råcëçâr.jpg",
-        to_ascii:    -> (string) do
-          string.encode("US-ASCII", undef: :replace, replace: "_")
+        to_ascii:    ->(filename) do
+          filename.encode("US-ASCII", undef: :replace, replace: "_")
         end
       )
 
@@ -120,8 +120,8 @@ RSpec.describe ContentDisposition do
     end
 
     it "uses :to_ascii setting" do
-      ContentDisposition.to_ascii = -> (string) do
-        string.encode("US-ASCII", undef: :replace, replace: "_")
+      ContentDisposition.to_ascii = ->(filename) do
+        filename.encode("US-ASCII", undef: :replace, replace: "_")
       end
 
       content_disposition = ContentDisposition.new(
