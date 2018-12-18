@@ -1,4 +1,8 @@
 RSpec.describe ContentDisposition do
+  after do
+    ContentDisposition.to_ascii = nil
+  end
+
   describe ".format" do
     it "returns Content-Disposition string" do
       value = ContentDisposition.format(disposition: "attachment", filename: "racecar.jpg")
@@ -103,11 +107,26 @@ RSpec.describe ContentDisposition do
       expect(content_disposition.ascii_filename).to eq %(filename="%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F.jpg")
     end
 
-    it "uses :to_ascii" do
+    it "uses :to_ascii option" do
       content_disposition = ContentDisposition.new(
         disposition: :inline,
         filename:    "råcëçâr.jpg",
-        to_ascii:    -> (string) { string.encode("US-ASCII", undef: :replace, replace: "_") }
+        to_ascii:    -> (string) do
+          string.encode("US-ASCII", undef: :replace, replace: "_")
+        end
+      )
+
+      expect(content_disposition.ascii_filename).to eq %(filename="r_c___r.jpg")
+    end
+
+    it "uses :to_ascii setting" do
+      ContentDisposition.to_ascii = -> (string) do
+        string.encode("US-ASCII", undef: :replace, replace: "_")
+      end
+
+      content_disposition = ContentDisposition.new(
+        disposition: :inline,
+        filename:    "råcëçâr.jpg",
       )
 
       expect(content_disposition.ascii_filename).to eq %(filename="r_c___r.jpg")

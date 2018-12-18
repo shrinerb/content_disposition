@@ -10,32 +10,33 @@ class ContentDisposition
     string.encode("US-ASCII", undef: :replace, replace: "?")
   end
 
-  def self.format(disposition:, filename:, to_ascii: DEFAULT_TO_ASCII)
-    new(disposition: disposition, filename: filename, to_ascii: to_ascii).to_s
-  end
+  class << self
+    def attachment(filename = nil)
+      format(disposition: ATTACHMENT, filename: filename)
+    end
 
-  def self.call(*args)
-    format(*args)
-  end
+    def inline(filename = nil)
+      format(disposition: INLINE, filename: filename)
+    end
 
-  def self.attachment(filename = nil)
-    format(disposition: ATTACHMENT, filename: filename)
-  end
+    def format(**options)
+      new(**options).to_s
+    end
+    alias call format
 
-  def self.inline(filename = nil)
-    format(disposition: INLINE, filename: filename)
+    attr_accessor :to_ascii
   end
 
   attr_reader :disposition, :filename, :to_ascii
 
-  def initialize(disposition:, filename:, to_ascii: DEFAULT_TO_ASCII)
+  def initialize(disposition:, filename:, to_ascii: nil)
     unless [ATTACHMENT, INLINE].include?(disposition.to_s)
       fail ArgumentError, "unknown disposition: #{disposition.inspect}"
     end
 
     @disposition = disposition
-    @filename = filename
-    @to_ascii = to_ascii
+    @filename    = filename
+    @to_ascii    = to_ascii || self.class.to_ascii || DEFAULT_TO_ASCII
   end
 
   def to_s
@@ -49,7 +50,7 @@ class ContentDisposition
   TRADITIONAL_ESCAPED_CHAR = /[^ A-Za-z0-9!#$+.^_`|~-]/
 
   def ascii_filename
-    'filename="' + percent_escape(to_ascii.call(filename), TRADITIONAL_ESCAPED_CHAR) + '"'
+    'filename="' + percent_escape(to_ascii[filename], TRADITIONAL_ESCAPED_CHAR) + '"'
   end
 
   RFC_5987_ESCAPED_CHAR = /[^A-Za-z0-9!#$&+.^_`|~-]/
