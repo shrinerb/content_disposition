@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ '**' ]
 
-
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -19,7 +18,6 @@ jobs:
           - 2.5
           - 2.6
           - 2.7
-          - ruby-head
 
     steps:
     - uses: actions/checkout@v2
@@ -30,10 +28,5 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
 
-
     - name: Run tests
       run: bundle exec rspec
-
-
-
-
