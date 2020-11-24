@@ -1,8 +1,0 @@
----
-language: ruby
-rvm:
-  - 2.4.5
-  - 2.5.3
-  - ruby-head
-
-before_install: gem install bundler -v 1.17.1
